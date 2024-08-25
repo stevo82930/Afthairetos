@@ -1,0 +1,2164 @@
+ <!DOCTYPE html>
+<html>
+
+<head>
+	<Title>The Duke of Afthairetos</Title> 
+	
+	<!-- 
+C:\Users\stevo\Desktop\Toolbox Project\Stack Calculator.html
+below is as if I had an either/or .css file to reference
+<link rel="stylesheet" href="cdn.css" onerror="this.onerror=null;this.href='local.css';" />
+	/-->
+	
+	<!-- 
+	
+	I really need to find out if I can use my network to host a page in node.js
+		I have been able to get node to send data over my network. I think I was able to send info to the host using URL (blob?). I do not now if the host recieved data or if that was rendered on the client.
+	I would like to add a save file to AWS.
+	This should have a copy on AWS so prove that I can run it from there.
+	I would like to make a CSV converter that would a database option that is highly versitile
+	
+	
+	The controller css problem im having might be researched by making some test divs to see if they behave the same way. And/or why.
+	Mark all skeleton parts in this file and later ones with the keyword "Bone" to show that it would stay if I emtied the files of unique contents.
+	I still need to have the upload and download player things made. I would like to have every option turned into a button in the player list.
+	I would like to have a this app make HTML menus realy easily to make this app run smoother and to add to the skeleton. 
+		
+	When I make the host app I will have three objects that will be loaded in the browser as temporary holding places for various entities.
+		This will allow for them to transend the scenario/session and will make creation of games easier. The 3 are titles, rightHand, leftHand, and workZone.
+	I would like to start the host app in basic form first so that it could be used earlier rather than later.
+	The host app will have a place called table. This is a holding and reference area for that scenario. NPC, Enemy, and item objects can be deplayed or duplicated from there.
+	The host app should specify if the entity being viewed is a proto or numbered version.
+	The host app should count and display number of changes since last save/download to file.
+	The host app should be sure to run a play mode that will save as a play mode and not save over the original file. Though the play mode should be completely editable just like in creation.
+	I need to make download ability for this and for all my other apps that i would like to write. I cannot figure it out though.
+	The host app should have a run mode for the enemies and NPC during play, test, and edit modes. These are a type of proceedure. 
+	The host app should have an undo/redo/repeat feature. This may only be one change recorded at a time.
+	The host app will have a auto creation proceedure that will be specific as the player would like or to my abilities/desire to make it so.
+	The host app will be making use a skeletal javascript object that will run adjacent children from an HTML element. This will allor for side arrows while on a details canvas.
+	The host app will run interaction with NPC. The players will be able to interact by selecting tags (sorted by context) that will trigger the response text and maybe even reward the player or change stuff.
+	The host app will reference the GameBox.js for NPC speech. I would like to have more than one texts for each speech. The NPC will have context based responses within the programming.
+	The host app NPC IA will be awesome. NPC should have a lot of properties. 1 of 8 personality types, items held, mood, incentives, health, affiliation,wound markers, enemy conversion for if it becomes an enemy and more.
+	The host app will have an ability to send and receive content from the player app at some point. I do not want this to get in the way. I do want to have a structure for both player and host to be ran offline. Maybe LAN at some point.
+	I am planning on running a session on a local network using node.js. I would also like to use AWS to host. That would cost some money though.
+	
+	/-->
+	
+	
+	
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#66ccff">
+	<meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+	
+    <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-3.6.0.js"></script> 
+	<!--CSS STYLE-->
+	
+	<style>
+		:root{
+			--backColor1:#000000;
+			--backColor2:#000000;
+			--fontColor1:#ffffffcc;
+			--fontColor2:#66ccff;
+			
+		}
+		   
+		.disable-select {
+			 user-select: none; /* supported by Chrome and Opera */
+			 -webkit-user-select: none; /* Safari */
+			 -khtml-user-select: none; /* Konqueror HTML */
+			 -moz-user-select: none; /* Firefox */
+			 -ms-user-select: none; /* Internet Explorer/Edge */
+		}
+		
+		* {
+			color: var(--fontColor1);
+			font-size: 1.12em;
+			text-shadow: 10px 10px 10px #00000099;
+			
+		}
+		html {
+			height: 100%;
+		}
+		
+		body {
+			text-align: center;
+			font-family: Arial;
+			background-attachment: fixed;
+			background-color: DarkGrey; /* For browsers that do not support gradients */
+			background-image: linear-gradient(DarkGrey, Black);
+			background-position: center;
+			background-image: linear-gradient(rgba(0, 0, 0, 0.75),rgba(0, 0, 0, 1)) , url('White Texture One.jpg')
+			
+		}
+		
+		/* TEXT CONTROL STYLES*/
+		
+		myTitles {/*This is used to highlight words in a text.*/
+			color: var(--fontColor2);
+			font-size: 1em;
+			font-weight: bold;
+			text-shadow: 2px 2px 10px #00000099;
+		}
+		
+		h1 {
+			text-align: center;
+			color: var(--fontColor2);
+			font-size: 1em;
+			font-weight: bold;
+			text-shadow: 2px 2px 10px #00000099;
+			padding: 5px;
+		}
+				
+		.italicized  {
+			font-style: italic;
+		}
+		
+		.bolden {
+			font-weight: bold;
+		}
+		
+		.shrinkText {
+			font-size: 0.6em;
+		}
+		
+		.lightText {
+			/*color: #ffffff99;*/
+			/*filter: invert(100%);*/
+			filter: brightness(-50%);
+			filter: contrast(180%);
+		}
+		
+		.darkText {
+			/*color: #ffffff99;*/
+			/*filter: invert(100%);*/
+			filter: brightness(40%);
+		}
+		
+		.darkerShadow {
+			text-shadow: 100px, 100px;
+		}
+		
+		.jumbo {
+			font-size: 1.3em;
+			font-weight: bold;
+			padding: 0;
+			/*padding for buttons in the input controller*/
+		}
+		
+		hr.small {
+			margin-left:40%;
+			margin-right:40%;
+			margin-top:2px;
+			margin-bottom:2px;
+		}
+		
+		/* STYLES FOR THE VARIOUS DRAWERS  filter: blur(5px);*/
+		
+		.inputCanvas {
+			height: 0%;
+			width: 100%;
+			position: fixed;
+			z-index: 5;
+			top: 0;
+			left: 0;
+			background-color: #000000cc;
+			overflow-y: hidden; 
+			transition: 0.5s;
+			text-align:center;
+		}
+		
+		div.detailsCanvas {
+			height: 0%;
+			width: 100%;
+			position: fixed;
+			z-index: 3;
+			top: 0;
+			left: 0;
+			background-color: #000000cc;
+			overflow-y: auto; 
+			transition: 0.5s;
+			text-align:center;
+		}
+		
+		div.listCanvas {
+			height: 100%;
+			width: 0%;
+			position: fixed;
+			max-width: 400px;
+			margin: auto;
+			z-index: 2;
+			top: 0;
+			right: 0;
+			background-color: #ffffffcc;
+			overflow-y: auto; 
+			transition: 0.25s;
+			text-align: left;
+		}
+		
+		div.leftListCanvas {
+			height: 100%;
+			width: 0%;
+			position: fixed;
+			max-width: 400px;
+			margin: auto;
+			z-index: 2;
+			top: 0;
+			left: 0;
+			background-color: #ffffffcc;
+			overflow-y: auto; 
+			transition: 0.25s;
+			text-align: right;
+		}
+		
+		div.bottomTabCanvas {
+			height: 0%;
+			width: 90%;
+			position: fixed;
+			margin: auto;
+			left: 0; 
+			bottom: 0; 
+			right: 0;
+			max-height: 60%;
+			z-index: 2;
+			border-radius: 30px 30px 0px 0px;
+			background-color: #ffffffcc;
+			overflow-y: auto; 
+			transition: 0.25s;
+			text-align: center;
+		}
+		
+		div.topTabCanvas {
+			height: 0%;
+			width: 90%;
+			position: fixed;
+			margin: auto;
+			left: 0; 
+			top: 0; 
+			right: 0;
+			max-height: 60%;
+			z-index: 2;
+			border-radius: 30px 30px 0px 0px;
+			background-color: #ffffffcc;
+			overflow-y: auto; 
+			transition: 0.25s;
+			text-align: center;
+		}
+		
+		div.middleTabCanvas {
+			height: 0%;
+			width: 90%;
+			position: fixed;
+			margin: auto;
+			top: 0;
+			left: 0; 
+			bottom: 0; 
+			right: 0;
+			max-height: 90%;
+			max-width: 90%;
+			z-index: 2;
+			border-radius: 30px;
+			background-color: #ffffffcc;
+			overflow-y: auto; 
+			transition: 0.25s;
+			text-align: center;
+		}
+		
+		.inputCanvas input {
+			color: var(--fontColor2);
+			background-color: #00000000;
+			width:50%;
+			height:1.5em;
+        	font-size:1.6em;
+            border: none;
+			text-shadow: 2px 2px 5px black;
+            border-radius: 8px;
+		}
+		
+		/* SMALLER DIV ELEMEMTS FOR POSITIONING */
+		
+		br.inportait {
+			display:none;
+		}
+		
+		br.inlandscape {
+			display:block;
+		}
+		
+		div.triplet {
+			overflow: visible;
+			height: 30%;
+			width: 100%;
+			text-align: center;
+		}
+		
+		div.stabilizer {
+			display: inline-block;
+			height: 100%;
+			width: 30%;
+			margin: 0;
+			padding: 0; 
+			/*padding for buttons in the input controller*/
+			text-align: center;
+		}
+		
+		div.squareDiv {
+			aspect-ratio : 1 / 1;
+			width: 90%;
+			max-width: 300px;
+			margin: auto;
+			text-align: center;
+			display: inline-block;
+		}
+		
+		.card {
+			max-width: 500px;
+			margin: auto;
+			background-color: #55555500;
+			margin:10px;
+		}
+		
+		.cardHolder {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			background-color: #55555500;
+			justify-content: center;
+		}
+		
+		/* MY BEAUTIFUL BUTTONS */
+		
+		button {
+        	text-align: center;
+			border: none;
+			background-color: #00000000;
+			/*text-shadow: 2px 2px 5px #999999;*/
+			border-radius: 48%;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		
+		button.token {
+			border-radius: 10%;
+			padding-left: 5px;
+			padding-right: 10px;
+			
+		}
+		
+		button.listitem {
+			border-radius: 5%;
+			padding-left: 5px;
+			padding: 10px;
+		}
+		
+		button.spaced {
+			border-bottom: 20px;
+		}
+		
+		button.closeBTN {
+			margin-bottom: 30px;
+		}
+		
+		button.onCanvas {
+			color: var(--fontColor2);
+			text-shadow: 2px 2px 5px #000000;
+		}
+		
+		button:disabled,
+		button[disabled]{
+			color:#99999920;
+			text-shadow: none;
+		}
+		
+		button:active {
+			transform: translateY(7%);
+			box-shadow: inset 8px 6px 10px rgba(0,0,0,0.17), inset -8px -8px 4px #ffffff17;
+			text-shadow: 1px 1px 5px #999999;
+		}
+		
+		/* SPACIFIC STYLES */
+		
+		#description {
+			padding: 0px 20px ;
+			font-size: 1em;
+			color: white;
+			text-shadow: none;
+		}
+		
+		#controllerCanvas {
+			max-width:1000px;
+			max-height:400px;
+			overflow:hidden;
+		}
+		
+		#topleftcontroller {
+			float: left;
+		}
+		
+		#bottrightcontroller {
+			float: right;
+		}
+		
+		#midcontroller {
+			line-height: 100px;
+			display: inline-block;
+			vertical-align: middle;
+			text-align: center;
+		}
+		
+		/* FLUXUATION */
+		
+		@media screen and (orientation:portrait) {
+			h1 {
+				color: #ff9966;
+			}
+			
+			br.inportait {
+				display:block;
+			}
+		
+			br.inlandscape {
+				display:none;
+			}
+			
+			#controllerCanvas {
+				max-width:400px;
+				max-height:800px;
+			}
+			
+			#topleftcontroller {
+				float: none;
+			}
+		
+			#bottrightcontroller {
+				float: none;
+			}
+		}
+		
+		
+	</style>
+	<script>
+	// UPPER SCRIPT AND QUICK SETTINGS
+	
+		/*
+		 */
+		//Stevo's tester. use like this: sr.x || sr.ct++ || alert(sr.ct) || sr.ct = "testing"; //ect. sr will be console only.
+		var  sr =  {
+			ct : 0,
+			history : "Testing",
+			set x (testObject) {
+				sr.ct++;
+				const originalElement = event.target || event.srcElement || event.originalTarget;
+				const originalTag= event.target.tagName;
+				const testObjectType = typeof(testObject);
+				const testInfo = {Syntax: "sr.x = ", Count: sr.ct, Content:testObject, Type: testObjectType, Element:originalElement, Tag:originalTag};
+				console.table({testInfo});
+				if(testObjectType == "object")console.table({testObject});
+				else if(testObject == "bug")debugger;
+				sr.history = testObject;
+			},
+			get x () {
+				sr.ct++;
+				const originalElement = event.target || event.srcElement || event.originalTarget;
+				const originalTag= event.target.tagName;
+				const testX = {Syntax: "sr.x;", Count: sr.ct, Element:originalElement, Tag:originalTag};
+				console.log(testX);
+				sr.history = sr.ct;
+			},
+			stop (content = "") {
+				const alerted = {Syntax: "sr.stop;", Count: "unchanged at " + sr.ct, Message:sr.history+" Provided content: "+content};
+				console.table({alerted});
+				//This could have the ability to give a different result if the sr.stop is called while all alone.
+				//if the sr.ct is equal to sr.history then the alert should be "testing" or sr.ct with a description as to why. etc.
+				alert(content+" and sr.history: "+sr.history);
+			}
+			
+		}
+		
+		var target = "";
+		var userFocus = "body";
+		
+		var player = {
+			name:"Player",
+			race:"Human",
+			bloodWound: 0,
+			bloodTolerance: 10,
+			crushWound: 0,
+			crushTolerance: 10,
+			innerWound: 0,
+			innerTolerance: 10,
+			mindWound: 0,
+			mindTolerance: 10,
+			curseWound: 0,
+			curseTolerance: 5,
+			silver: 0,
+			level: 1.0,
+			goodRep: 10,
+			badRep: 10,
+			state: [],
+			items: [],
+			titles: [],
+			memory: [],
+			actToken:"Idle"
+		}
+		localStorageInitiation();
+		
+		
+		//This is for the starage of variables
+		function localStorageInitiation () {
+			if (localStorage.exists){
+				let playerString = localStorage.getItem("player");
+				//goal = Number(localStorage.goal); // Example
+				player = JSON.parse(playerString);
+			} else {
+				//localStorage.setItem("goal", 0); //Example
+				localStorage.setItem("exists", true);
+				localStorage.setItem("player", JSON.stringify(player));
+			}
+		}
+		
+		//This is to set the best press for the input. Then set the functions in jquerry
+		function isTouch() {
+		{
+			try{ document.createEvent("TouchEvent"); return true; }
+			catch(e){ return false; }
+		}
+			if(isTouch()){
+				$(document).ready(
+					function(){
+						$("button").on('touchstart',function(){
+							//The bellow function was renamed for another purpose. I was wondering iff I even need this jquery but I will know more after I try using a touchscreen.
+							//If that happens then I will need to reinstate the buttonHandler().
+							buttonHandler(this.id, this.name);
+						});
+					}
+				);
+			}else{
+				$(document).ready(
+					function(){
+						$("button").mousedown(function(){
+							buttonHandler(this.id, this.name);
+						});
+					}
+				);
+			}
+		}
+	</script>
+
+</head>
+
+
+<body onload="initiateList()">
+
+<!-- DOM CANVAS background elements -->
+
+			<!-- Bone... for now. I would like to have proxy input to be the same but with it as generated using javascript. -->
+	<div id="inputCanvas1" class ="inputCanvas">
+		<br>
+		<form action="#" onsubmit="submitInputProxy(); closeProxy(); return false;">
+				<input type="input" name="inputProxy" id="inputProxy" value="1">
+			<p name="description" id="description"></p>
+			<button type="submit" name="proxySubmit" id="proxySubmit" class="disable-select onCanvas">Submit ➤</button>
+		</form>
+		<hr>
+		<button type="button" name="closeproxy" id="closeproxy" class="disable-select onCanvas" onclick="drawerOpenClose()">Close</button>
+	</div>
+	
+	<div id="detailsCanvas1" class ="detailsCanvas">
+		<br>
+		<h1 id="detailsTitle" class="lightText">Items title</h1>
+		<hr>
+		<p name="datails" id="datails" style="padding:5px" class="lightText"></p>
+		<hr>
+		<div>
+			<button type="button" name="addToPlayer" id="addToPlayer" class="disable-select onCanvas lightText" onclick="addToPlayer()" disabled>Add to Player</button>
+			<button type="button" name="removeFromPlayer" id="removeFromPlayer" class="disable-select onCanvas lightText" onclick="removeFromPlayer()" disabled>Remove from Player</button>
+			<br>
+			<br>
+			<button type="button" name="closeDetails" id="closeDetails" class="disable-select lightText closeBTN" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="itemsListCanvas1" class ="listCanvas">
+		<br>
+		<h1 class="lightText">Item Master List</h1>
+		<hr>
+		<div id="itemList1">
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeItems" id="closeItems" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="statusListCanvas1" class ="listCanvas">
+		<br>
+		<h1 class="lightText">Status Master List</h1>
+		<hr>
+		<div id="statusList1">
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeStatus" id="closeStatus" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="titlesListCanvas1" class ="listCanvas">
+		<br>
+		<h1 class="lightText">Titles Master List</h1>
+		<hr>
+		<div id="titlesList1">
+		</div>
+		<hr>
+		<div style="align: center">
+			<button type="button" name="closeTitles" id="closeTitles" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="endeavorCanvas" class ="bottomTabCanvas">
+		<div id="endeavorList" class="listOfItems">
+			<button type="button" name="pass" id="pass" class="disable-select listitem  darkText">Advance to the next area</button>
+			<hr class="small">
+			<button type="button" name="return" id="return" class="disable-select listitem darkText">Return the way you came</button>
+			<hr class="small">
+			<button type="button" name="move" id="move" class="disable-select listitem darkText">Push/Pull/Lift/Rotate</button>
+			<hr class="small">
+			<button type="button" name="break" id="break" class="disable-select listitem darkText">Cause damage to something</button>
+			<hr class="small">
+			<button type="button" name="operate" id="operate" class="disable-select listitem darkText">Operate something</button>
+			<hr class="small">
+			<button type="button" name="collect" id="collect" class="disable-select listitem darkText">Collect something</button>
+			<hr class="small">
+			<button type="button" name="throw" id="throw" class="disable-select listitem darkText">Drop or throw something</button>
+			<hr class="small">
+			<button type="button" name="instagate" id="instagate" class="disable-select listitem darkText">Initiate interaction with something or someone</button>
+			<hr class="small">
+			<button type="button" name="other" id="other" class="disable-select listitem darkText">Attempt something not listed</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeEndeavor" id="closeEndeavor" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="discoverCanvas" class ="bottomTabCanvas">
+		<div id="discoverList" class="listOfItems">
+			<button type="button" name="ground" id="ground" class="disable-select listitem darkText">Be still and listen, look around</button>
+			<hr class="small">
+			<button type="button" name="observe" id="observe" class="disable-select listitem darkText">Observe something/someone</button>
+			<hr class="small">
+			<button type="button" name="meditate" id="meditate" class="disable-select listitem darkText">Meditate/reflect/recall</button>
+			<hr class="small">
+			<button type="button" name="rifle" id="rifle" class="disable-select listitem darkText">Quickly rifle through something</button>
+			<hr class="small">
+			<button type="button" name="peek" id="peek" class="disable-select listitem darkText">Listen through/peek inside</button>
+			<hr class="small">
+			<button type="button" name="rifle" id="rifle" class="disable-select listitem darkText">Smell/feel/speak to/clean</button>
+			<hr class="small">
+			<button type="button" name="rifle" id="rifle" class="disable-select listitem darkText">Do previous action more thoroughly</button>
+			<hr class="small">
+			<button type="button" name="other" id="other" class="disable-select listitem darkText">Attempt something not listed</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeDiscover" id="closeDiscover" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="partyCanvas" class ="bottomTabCanvas">
+		<div id="partyList" class="listOfItems">
+			<button type="button" name="share" id="share" class="disable-select listitem darkText">Share items with someone</button>
+			<hr class="small">
+			<button type="button" name="spar" id="spar" class="disable-select listitem darkText">Spar with someone</button>
+			<hr class="small">
+			<button type="button" name="consult" id="consult" class="disable-select listitem darkText">Consult with group</button>
+			<hr class="small">
+			<button type="button" name="banter" id="banter" class="disable-select listitem darkText">Banter session</button>
+			<hr class="small">
+			<button type="button" name="partytrick" id="partytrick" class="disable-select listitem darkText">Use support skill on party member</button>
+			<hr class="small">
+			<button type="button" name="npc" id="npc" class="disable-select listitem darkText">Interact with an NPC in the party</button>
+			<hr class="small">
+			<button type="button" name="other" id="other" class="disable-select listitem darkText">Attempt something not listed</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeParty" id="closeParty" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="selfCanvas" class ="bottomTabCanvas">
+		<div id="selfList" class="listOfItems">
+			<button type="button" name="itemuse" id="itemuse" class="disable-select listitem darkText">Use an item</button>
+			<hr class="small">
+			<button type="button" name="selfcheck" id="selfcheck" class="disable-select listitem darkText">Inspect yourself</button>
+			<hr class="small">
+			<button type="button" name="equipment" id="equipment" class="disable-select listitem darkText">Change/inspect equipment</button>
+			<hr class="small">
+			<button type="button" name="change" id="change" class="disable-select listitem darkText">Fabricate/dimantle item</button>
+			<hr class="small">
+			<button type="button" name="recover" id="recover" class="disable-select listitem darkText">Spend a moment to recover</button>
+			<hr class="small">
+			<button type="button" name="write" id="write" class="disable-select listitem darkText">Record something</button>
+			<hr class="small">
+			<button type="button" name="other" id="other" class="disable-select listitem darkText">Attempt something not listed</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeSelf" id="closeSelf" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="enemyCanvas" class ="bottomTabCanvas">
+		<div id="enemyList" class="listOfItems">
+			<button type="button" name="engage" id="engage" class="disable-select listitem darkText">Engage new enemy</button>
+			<hr class="small">
+			<button type="button" name="weapon" id="weapon" class="disable-select listitem darkText">Attack enemy with weapon</button>
+			<hr class="small">
+			<button type="button" name="stuffatk" id="stuffatk" class="disable-select listitem darkText">Use an item against an enemy(s)</button>
+			<hr class="small">
+			<button type="button" name="fist" id="fist" class="disable-select listitem darkText">Use a non-weapon attack</button>
+			<hr class="small">
+			<button type="button" name="block" id="block" class="disable-select listitem darkText">Take a defensive stance</button>
+			<hr class="small">
+			<button type="button" name="flee" id="flee" class="disable-select listitem darkText">Break from all engagements</button>
+			<hr class="small">
+			<button type="button" name="pacify" id="pacify" class="disable-select listitem darkText">Attempt to pacify the enemy</button>
+			<hr class="small">
+			<button type="button" name="other" id="other" class="disable-select listitem darkText">Attempt something not listed</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeEnemy" id="closeEnemy" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="npcCanvas" class ="bottomTabCanvas">
+		<div id="npcList" class="listOfItems">
+			<button type="button" name="engage" id="engage" class="disable-select listitem darkText">Engage with an NPC</button>
+			<hr class="small">
+			<button type="button" name="talk" id="talk" class="disable-select listitem darkText">Converse with NPC</button>
+			<hr class="small">
+			<button type="button" name="stuffto" id="stuffto" class="disable-select listitem darkText">Use/give item on/to NPC</button>
+			<hr class="small">
+			<button type="button" name="stufffrom" id="stufffrom" class="disable-select listitem darkText">Request an item/favor from the NPC</button>
+			<hr class="small">
+			<button type="button" name="poke" id="poke" class="disable-select listitem darkText">Assult/provoke the NPC</button>
+			<hr class="small">
+			<button type="button" name="flee" id="flee" class="disable-select listitem darkText">Break from all engagements</button>
+			<hr class="small">
+			<button type="button" name="other" id="other" class="disable-select listitem darkText">Attempt something not listed</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closeNPC" id="closeNPC" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="playerCanvas" class ="bottomTabCanvas">
+		<div id="playerMenu" class="listOfItems">
+			<a href="/Afthairetos Player.JSON" download="Afthairetos Player">
+				<button type="button" name="download" id="download" class="disable-select listitem darkText" >Download Player JSON from server (In development)</button>
+			</a>
+			<hr class="small">
+			<button type="button" name="savetoserver" id="savetoserver" class="disable-select listitem darkText">Save Player JSON to server (In development)</button>
+			<hr class="small">
+			<button type="button" name="loadserver" id="loadserver" class="disable-select listitem darkText">Load Player JSON from server (In development)</button>
+			<hr class="small">
+			<button type="button" name="copyplayer" id="copyplayer" class="disable-select listitem darkText" onclick="downloadPlayerToClipboard('JSON')">Copy Player to clipboard</button>
+			<hr class="small">
+			<button type="button" name="pasteplayer" id="pasteplayer" class="disable-select listitem darkText" onclick="pastePlayerFromClipboardJSON()">Paste Player from clipboard (In development)</button>
+			<hr class="small">
+			<button type="button" name="playerfromnode" id="playerfromnode" class="disable-select listitem darkText">Download from a node server (In development)</button>
+			<hr class="small">
+			<button type="button" name="upload" id="upload" class="disable-select listitem darkText">Upload Player JSON from file</button>
+			<hr class="small">
+			
+			
+			<form action="/action_page.php">
+				<input type="file" id="playerupload" name="playerupload">
+			</form>
+			
+			
+			
+			
+			<button type="button" name="nameit" id="nameit" class="disable-select listitem darkText">Change name</button>
+			<hr class="small">
+			<button type="button" name="imagebtn" id="imagebtn" class="disable-select listitem darkText" onclick="alert(gamePlayerData())">Select character image</button>
+			<hr class="small">
+			<button type="button" name="diedie" id="diedie" class="disable-select listitem darkText">Reset current character sheet</button>
+		</div>
+		<hr>
+		<div>
+			<button type="button" name="closePlayer" id="closePlayer" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+	
+	<div id="controllerCanvas" class ="middleTabCanvas ancorCenter">
+		<h1 name="controllerInput" id="controllerInput">Enter sequense now</h1>
+		<div>
+		</div>
+		<div id="topleftcontroller" name="topleftcontroller" class="squareDiv">
+			<div class="triplet">
+				<div class="stabilizer"></div>
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select darkText jumbo material-icons" onclick="buttonHandler('up')">arrow_drop_up</button>
+				</div>
+				<div class="stabilizer"></div>
+			</div>
+			<div class="triplet">
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select darkText jumbo material-icons" onclick="buttonHandler('left')">arrow_left</button>
+				</div>
+				<div class="stabilizer"></div>
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select darkText jumbo material-icons" onclick="buttonHandler('right')">arrow_right</button>
+				</div>
+			</div>
+			<div class="triplet">
+				<div class="stabilizer"></div>
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select darkText jumbo material-icons" onclick="buttonHandler('down')">arrow_drop_down</button>
+				</div>
+				<div class="stabilizer"></div>
+			</div>
+		</div>
+		<br class="inportait">
+		<div id="midcontroller" name="midcontroller">
+			<button type="button" name="ctrlsubmit" id="ctrlsubmit" class="disable-select darkText jumbo material-icons" onclick="impactGame('controllerInput')">done</button>
+			<br class="inlandscape">
+			<button type="button" name="ctrlundo" id="ctrlundo" class="disable-select darkText jumbo material-icons" onclick="buttonHandler('ctrlundo')">undo</button>
+			<br class="inlandscape">
+			<button type="button" name="ctrlclose" id="ctrlclose" class="disable-select darkText jumbo material-icons" onclick="drawerOpenClose(); document.getElementById('controllerInput').innerText = 'Enter sequense now';">close</button>
+		</div>
+		<br class="inportait">
+		<div id="bottrightcontroller" name="bottrightcontroller" class="squareDiv">
+			<div class="triplet">
+				<div class="stabilizer"></div>
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select jumbo darkText" onclick="buttonHandler('Y')">Y</button>
+				</div>
+				<div class="stabilizer"></div>
+			</div>
+			<div class="triplet">
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select jumbo darkText" onclick="buttonHandler('X')">X</button>
+				</div>
+				<div class="stabilizer"></div>
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select jumbo darkText" onclick="buttonHandler('B')">B</button>
+				</div>
+			</div>
+			<div class="triplet">
+				<div class="stabilizer"></div>
+				<div class="stabilizer">
+					<button type="button" name="" id="" class="disable-select jumbo darkText " onclick="buttonHandler('A')">A</button>
+				</div>
+				<div class="stabilizer"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+		
+	<div id="tempCenterCanvas" class ="middleTabCanvas vertical">
+		<div style="align: center">
+			<button type="button" name="closeTempCTR" id="closeTempCTR" class="disable-select closeBTN darkText" onclick="drawerOpenClose()">Close</button>
+		</div>
+	</div>
+
+<!-- DOM MAIN PAGE HMI  -->
+
+	<div class="mainContainer">
+	
+		<div class="row">
+			<h1 name="sheetName" id="sheetName">The Duke of Afthairetos Character Sheet</h1>
+		</div>
+		
+		<hr>
+		
+		<div>
+			<h1 name="actToken" id="actToken">Player is idle</h1>
+		</div>
+		
+		
+		<hr>
+		
+		<h1 name="header" id="header">Actions</h1>
+		
+		
+		
+		
+		<div>
+			<div name="actionList" id="actionList" class="listOfItems">
+				<button type="button" name="endeavor" id="endeavor" class="disable-select bolden listitem" onclick="drawerOpenClose('endeavorCanvas')"><i class="material-icons">hotel_class</i>Endeavor</button>
+				<button type="button" name="discover" id="discover" class="disable-select bolden listitem" onclick="drawerOpenClose('discoverCanvas')"><i class="material-icons">travel_explore</i>Discover</button>
+				<button type="button" name="party" id="party" class="disable-select bolden listitem" onclick="drawerOpenClose('partyCanvas')"><i class="material-icons">diversity_3</i>Party</button>
+				<button type="button" name="self" id="self" class="disable-select bolden listitem" onclick="drawerOpenClose('selfCanvas')"><i class="material-icons">hiking</i>Self</button>
+				<button type="button" name="enemy" id="enemy" class="disable-select bolden listitem" onclick="drawerOpenClose('enemyCanvas')"><i class="material-icons">sports_martial_arts</i>Enemy</button>
+				<button type="button" name="npc" id="npc" class="disable-select bolden listitem" onclick="drawerOpenClose('npcCanvas')"><i class="material-icons">connect_without_contact</i>NPC</button>
+				<button type="button" name="playerbtn" id="playerbtn" class="disable-select bolden listitem" onclick="drawerOpenClose('playerCanvas')"><i class="material-icons">engineering</i>Player</button>
+				<button type="button" name="know" id="know" class="disable-select bolden listitem" onclick="drawerOpenClose('controllerCanvas')"><i class="material-icons">menu_book</i>Knowledge</button>
+				<!--   -->
+				<button type="button" name="testBtn" id="testBtn" class="disable-select bolden listitem" onclick="theDukesTester()"><i class="material-icons">menu_book</i>TEST</button>
+				<!--   -->
+			</div>
+		</div>
+		
+		<hr>
+		
+		<h1 name="header" id="header">Character Tokens</h1>
+		
+		<div class="cardHolder">
+			<div class="card">
+				
+					<button type="button" name="upBlood" id="upBlood" class="disable-select token darkerShadow" onclick="actBTNactions('upBlood')">Blood Wound</button>
+				
+					<button type="button" name="downBlood" id="downBlood" class="disable-select number" onclick="actBTNactions('downBlood')">-1</button>
+				
+			</div>
+			<div class="card">
+				
+					<button type="button" name="upCrush" id="upCrush" class="disable-select token" onclick="actBTNactions('upCrush')">Crush Wound</button>
+				
+					<button type="button" name="downCrush" id="downCrush" class="disable-select number" onclick="actBTNactions('downCrush')">-1</button>
+				
+			</div>
+			<div class="card">
+				
+					<button type="button" name="upInner" id="upInner" class="disable-select token" onclick="actBTNactions('upInner')">Inner Wound</button>
+				
+					<button type="button" name="downInner" id="downInner" class="disable-select number" onclick="actBTNactions('downInner')">-1</button>
+				
+			</div>
+			<div class="card">
+				
+					<button type="button" name="upMind" id="upMind" class="disable-select token" onclick="actBTNactions('upMind')">Mind Wound</button>
+				
+					<button type="button" name="downMind" id="downMind" class="disable-select number" onclick="actBTNactions('downMind')">-1</button>
+				
+			</div>
+			<div class="card">
+				
+					<button type="button" name="upCurse" id="upCurse" class="disable-select token" onclick="actBTNactions('upCurse')">Curse Wound</button>
+				
+					<button type="button" name="downCurse" id="sownCurse" class="disable-select number" onclick="actBTNactions('downCurse')">-1</button>
+				
+			</div>
+		</div>
+		
+		<hr>
+		
+		<h1 name="header" id="header">Status</h1>
+		
+		<div>
+			<div name="ownStatus" id="ownStatus" class="listOfItems">				
+				<button type="button" name="item" id="item" class="disable-select listitem" onclick="drawerOpenClose('statusListCanvas1')">+</button>
+			</div>
+		</div>
+		
+		<hr>
+		
+		<h1 name="header" id="header">Items</h1>
+		
+		<div>
+			<div name="ownItems" id="ownItems" class="listOfItems">
+				<button type="button" name="item" id="item" class="disable-select listitem" onclick="drawerOpenClose('itemsListCanvas1')">+</button>
+			</div>
+		</div>
+		
+		<hr>
+		
+		<h1 name="header" id="header">Titles</h1>
+		
+		<div>
+			<div name="ownTitles" id="ownTitles" class="listOfItems">
+				<button type="button" name="item" id="item" class="disable-select listitem" onclick="drawerOpenClose('titlesListCanvas1')">+</button>
+			</div>
+		</div>
+		
+			
+	</div>
+</body>
+
+<script src="GameBox.js"></script>
+<script>
+		// FUNCTION OBJECTS
+		
+		
+	function theDukesTester(testSubject = "Test", action = "alert"){
+		sr.x;
+		
+		/*
+		{"name":"Player","race":"Human","bloodWound":0,"crushWound":0,"innerWound":0,"mindWound":0,"curseWound":0,"level":1,"goodRep":10,"badRep":10,"state":["Hungry"],"items":["Sharp Stone","Raw Metal","Rock"],"titles":["Swordsman in Training"],"silver":-268.9358499999999}
+		*/
+		//showProxyCanvas();
+		
+		//drawerOpenClose("selfCanvas");
+		//alert(boxAreaCards("Perilous Descent"));
+		//testSubject = boxAreaCards("Perilous Descent");
+		//testSubject = formatHelper();
+		//testSubject = http://192.168.88.253:8080/?year=2023&month=july
+		//if(action == "alert")alert(testSubject);
+		const axis = document.getElementById("tempCenterCanvas");
+		//drawerOpenClose("tempCanvasH");
+		alert(axis.classList.contains("ancorCenter"));
+	}
+		
+//{
+
+//}
+
+	function initiateList(){
+		//localStorageInitiation();//not sure if i should do this in on
+		populateMasterList("status");
+		populateMasterList("items");
+		populateMasterList("titles");
+		syncPageToPlayer();
+		
+	}
+	
+	//needs an initiation for the three lists in the visible main body canvas based on the players attributes
+	
+	function populateMasterList(listToPopulate = "titles"){
+		//This is to get the correct list from the three.
+		var listOf = [0,0];
+		var whichListElementId = "titlesList1";
+		var br = document.createElement("br");
+		var list = document.getElementById(whichListElementId);
+		if(listToPopulate == "status"){
+			 listOf = gameStatus();
+			 whichListElementId = "statusList1";
+		}else if(listToPopulate == "items"){
+			 listOf = gameItems();
+			 whichListElementId = "itemList1";
+		}else{// == "titles";
+			 listOf = gameTitles();
+			 whichListElementId = "titlesList1";
+		}
+		for (let i = 0; i < listOf.length; i++){
+			br = document.createElement("br");
+			list = document.getElementById(whichListElementId);
+			addBtnToList(whichListElementId, listOf[i]);
+			list.insertBefore(br, list.children[1]);
+		}
+		
+		
+	}
+	
+	function syncPageToPlayer(){
+		//There needs to be a cleaning of existing elements before this adds. This will allow for a refresher.
+		
+		const status = player.state;
+		const items = player.items;
+		const titles = player.titles;
+		//These will error if the player is attempted but fails.
+		for (let i = 0; i < status.length; i++){
+			addBtnToList("ownStatus", status[i]);
+		}
+		for (let i = 0; i < items.length; i++){
+			addBtnToList("ownItems", items[i]);
+		}
+		for (let i = 0; i < titles.length; i++){
+			addBtnToList("ownTitles", titles[i]);
+		}
+		actBTNactions("updateBlood");
+		actBTNactions("updateCrush");
+		actBTNactions("updateInner");
+		actBTNactions("updateMind");
+		actBTNactions("updateCurse");
+	}
+	
+	//This will open the inputCanvas and select the inputProxy input field. It will also pass the buttonID arg to the 'target' variable.
+	//Keyboard changes the 50% and smashes drawer https://stackoverflow.com/questions/4207880/android-how-do-i-prevent-the-soft-keyboard-from-pushing-my-view-up
+	function showProxyCanvas(buttonID = "Test Probe 80") {//need to stop the 'goal' from making input a 0.
+		userFocus = "inputCanvas1";
+		var text = 500;
+		var inputCanvasHeight = document.getElementById("inputCanvas1").clientHeight;
+		if(inputCanvasHeight != 0) return;
+		//if(buttonID == "goal") text = goal.toString();
+		if(isNaN(text)) text = 0;
+		target = buttonID;
+		updateText("inputProxy", text);
+		updateText("description", information(buttonID));
+		document.getElementById("inputCanvas1").style.height = "100%";
+		document.getElementById("inputProxy").focus();
+		document.getElementById("inputProxy").select();
+	}
+	
+	
+	
+					//BUILDING SKELETON CANVAS BELOW
+	
+	
+	
+	//This will be any new panel that the style will be set as number and then the associated css will be applied. The arguments are for the contents... maybe.
+	//I will hold on to this in case I need it. Otherwise I will be using already built canvases that only need cleared after use.
+	function newTempPanel(styleChoice = "generic", nameID = "tempCanvasV") {
+		var div = document.createElement("div");
+		
+		div.setAttribute("id", nameID);
+		div.setAttribute("name", nameID);
+		//div.style.background = "red";
+		switch(styleChoice){
+			case 1: 
+			case"inputCanvas":
+			case "input":
+			case "detailsCanvas":
+			case "overlay":
+				div.setAttribute("class","detailsCanvas");
+				break;
+			case 2:
+			case "middleTabCanvas":
+			case "middle":
+			case "center":
+				div.setAttribute("class","middleTabCanvas");
+				break;
+			case 3:
+			case "topTabCanvas":
+			case "from top":
+			case "slide down":
+			case "pull down":
+			case "curtain":
+				div.setAttribute("class","topTabCanvas");
+				break;
+			case 4:
+			case "bottomTabCanvas":
+			case "drawer":
+			case "from bottom":
+			case "bottom tab":
+				div.setAttribute("class","bottomTabCanvas");
+				break;
+			case 5:
+			case "leftListCanvas":
+			case "navagator":
+			case "from left":
+			case "left side":
+			case "pop out":
+				div.setAttribute("id","tempCanvasH");
+				div.setAttribute("name","tempCanvasH");
+				div.setAttribute("class","leftListCanvas");
+				break;
+			case 6:
+			case  "listCanvas":
+			case  "from right":
+			case  "right side":
+			case  "master":
+			case  "options":
+				div.setAttribute("id","tempCanvasH");
+				div.setAttribute("name","tempCanvasH");
+				div.setAttribute("class","listCanvas");
+				break;
+			case 7:
+			case  "small":
+			case  "popup":
+			case  "prompt":
+			case  "input":
+			case  "choice":
+			case  "confirm":
+			case  "confirmation":
+				div.setAttribute("class","middleTabCanvas");
+				div.style.maxWidth = "30%";
+				div.style.maxHeight = "200px";
+				break;
+			default:
+					div.setAttribute("class","detailsCanvas");
+					div.style.background = "black";
+		}
+		
+		//div.innerHTML = "Test Heading";
+		
+		//Tell me where to stick it.
+		//document.getElementById("main").appendChild(div);
+		//OR
+		document.body.appendChild(div);// Becaue the canvas is fixed
+		
+		//Here the args will be altered in syntax so that they will run withour error and to make it more forgiving. 
+		
+	}
+	
+	
+	
+	
+	function clearTempPanel(specific) {
+		//This will remove the contents from a tray/canvas/drawer/parent/panel and then itself.
+	}
+	
+	
+	//create an input box for anything
+	function createInput(name, btnID, btnAction, ...args) {
+		
+	}
+	
+	//Give users options. The arguments should be names that will be processed using the "target" variable.
+	function ask(text, ...args) {
+		//The args should be parsed from strings using this format >>> text:action <<< Action will be sent to "target" and then the general button processor will run it.
+		//If the argument has no colon ( : ) it will be ony the button text and then if pressed it should be returned to a waiting functional object. If possible.
+	}
+	
+	//User will input some text. This is like showProxyCanvas().
+	function userInput(Starter, text, executable) {
+	
+	}
+	
+	//This will be my atempt to make a HTML element of any kind. Maybe a Bone.
+	function addElement(location, ...args) {
+	
+	
+		const lengthOfArgs = arguments.length;
+		
+		//here the object will be created {}
+		//if there are more than one arguments, the user has seperated specifics out with arguments. They need to be deliniated by ":" and then merged into the object.
+		//If the only argument is a string, it will need to be parsed. If it is an object, it will need to be copied.
+		
+		//Iterate through the object properties adding them to the element.
+		for(let i = 1; i < lengthOfArgs; i++){
+		
+		newElement.setAttribute("name",tag);
+			
+			/*
+			switch(arguments[i]){
+				case undefined:
+					boonVerdict += "";
+					break;
+				default:
+			}
+			
+			const newElement = document.createElement(eleType);
+			const tagText = document.createTextNode(tag);
+			const list = document.getElementById(location);
+			newElement.appendChild(tagText);
+			newElement.setAttribute("id",tag+forMasterList);
+			newElement.setAttribute("name",tag);
+			newElement.setAttribute("onclick",eleAction);
+			list.insertBefore(newElement,list.children[0]);
+			*/
+		}
+		//Here we will add the child to the specific parent in the location variable.
+	}
+	
+	//Keep this one as it is better for details to be opened with the target defined in this argument buttonID than it would be in the target variable.
+	function showDetailsCanvas(buttonID = "Error") {
+		target = buttonID;
+		updateText("datails", information(buttonID));
+		updateText("detailsTitle", buttonID);
+		permissionToAddRemove(buttonID);
+		document.getElementById("detailsCanvas1").style.height = "100%";
+	}
+	
+	function permissionToAddRemove(targetID = target){
+		const hasListStatus = player.state.includes(targetID);
+		const hasListItem = player.items.includes(targetID);
+		const hasListTitle = player.titles.includes(targetID);
+		if(hasListStatus || hasListItem || hasListTitle){
+			document.getElementById("removeFromPlayer").disabled = false;
+			document.getElementById("addToPlayer").disabled = true;
+		}else{
+			document.getElementById("addToPlayer").disabled = false;
+			document.getElementById("removeFromPlayer").disabled = true;
+		}
+		//if the player can have multiple of the items.
+		if(hasListItem)document.getElementById("addToPlayer").disabled = false;
+	}
+	
+//This should open close the drawers listed in the canvas array. Callback with no argument will close, spacific will open.
+	function drawerOpenClose(specific = "close"){
+		var element = document.getElementById("tempCenterCanvas");
+		var axis = "horizontal";
+		if(specific != "close"){
+			element = document.getElementById(specific);
+		}
+		//list of canvases to ensure closeure.
+		const canvas = [
+			"inputCanvas1",
+			"detailsCanvas1",
+			"statusListCanvas1",
+			"itemsListCanvas1",
+			"titlesListCanvas1",
+			"endeavorCanvas",
+			"discoverCanvas",
+			"partyCanvas",
+			"selfCanvas",
+			"enemyCanvas",
+			"npcCanvas",
+			"playerCanvas",
+			"controllerCanvas",
+			
+			"tempCanvasV",
+			"tempCanvasH",
+			
+			"tempCenterCanvas"
+		];
+		
+		if(element.classList.contains("vertical") && specific != "close"){
+			axis = "vertical";
+		}
+		
+		
+		
+		for(let i = 0; i < canvas.length; i++){
+			if(canvas[i] == specific && userFocus != canvas[i]){
+				if(specific == "statusListCanvas1" || specific == "itemsListCanvas1" || specific == "titlesListCanvas1" || specific == "tempCanvasH"){
+					document.getElementById(specific).style.width = "100%";
+				}else{
+					document.getElementById(specific).style.height = "100%";
+				}
+				userFocus = specific;
+			}else{
+				if(canvas[i] == userFocus)userFocus = "body";
+				if(canvas[i] == "statusListCanvas1" || canvas[i] == "itemsListCanvas1" || canvas[i] == "titlesListCanvas1" || canvas[i] == "tempCanvasH"){
+					if(document.getElementById(canvas[i])!== null) document.getElementById(canvas[i]).style.width = "0%";
+					
+				}else{
+					if(document.getElementById(canvas[i])!== null) document.getElementById(canvas[i]).style.height = "0%";
+				}
+			}
+			//document.getElementById("inputProxy").blur();
+		}
+	}
+	
+	//This is for buttons being made for spaecific lists. Not for skeleton. 
+	function addBtnToList(listId, tag = target) {
+		const newButton = document.createElement("BUTTON");
+		const tagText = document.createTextNode(tag);
+		const list = document.getElementById(listId);
+		var forMasterList = "";
+		if(listId == "statusList1"||listId == "itemList1"||listId == "titlesList1") forMasterList = "Master";
+		newButton.appendChild(tagText);
+		newButton.setAttribute("id",tag+forMasterList);
+		newButton.setAttribute("name",tag);
+		if(forMasterList == "Master"){
+		//This will set the class for the side popout master list item buttons.
+		newButton.setAttribute("class","darkText disable-select");
+		}else{
+			//This will set the class for the main page list item buttons.
+			newButton.setAttribute("class","bolden disable-select");
+		}
+		newButton.setAttribute("onclick","showDetailsCanvas('"+tag+"')");
+		list.insertBefore(newButton,list.children[0]);
+	}
+	
+	function removeFromList(listId, tag = target) {
+		const targetDiv = document.getElementById(listId);
+		const targetBtn = document.getElementById(tag);
+		targetBtn.remove();
+	}
+
+
+
+//						ABOVE IS FOR MANIPULATION OF PANNELS
+
+
+
+
+
+
+
+
+
+
+
+
+	//This adds values to the three player attributes arrays. Based on the tag. Mostly it has to identify to which 3 attributes it belongs.
+	function addToPlayer(tag = target){//This will also add the item to the main page list items. besides the initiation of those lists.
+		if(gameStatus(tag)){
+			player.state.push(tag);
+			addBtnToList("ownStatus", tag);
+		}
+		else if(gameItems(tag,"exists")) 
+		{
+			player.items.push(tag);
+			addBtnToList("ownItems", tag);
+		}else if(gameTitles(tag))
+		{
+			player.titles.push(tag);
+			addBtnToList("ownTitles", tag);
+		}else{
+			alert("addToPlayer() had an error. Maybe the developer has not entered this tag to the game.")
+			sr.ct = "addToPlayer "+target;
+		};
+		permissionToAddRemove(tag);
+		saveToLocalStorage();
+	}
+
+	function removeFromPlayer(tag = target){
+		var index = -1;
+		if(player.state.includes(tag)){
+			index = player.state.indexOf(tag);
+			player.state.splice(index,1);
+			removeFromList("ownStatus", tag);
+		}
+		else if(player.items.includes(tag)) 
+		{
+			index = player.items.indexOf(tag);
+			player.items.splice(index,1);
+			removeFromList("ownItems", tag);
+		}else if(player.titles.includes(tag))
+		{
+			index = player.titles.indexOf(tag);
+			player.titles.splice(index,1);
+			removeFromList("ownTitles", tag);
+		}else{
+			//alert("removeFromPlayer() had an error. This gets it target from an argument or the target variable");
+		};
+		permissionToAddRemove(tag);
+		saveToLocalStorage();
+	}
+
+
+
+
+	//This will change text on an element or value in a number input.
+	function updateText(elementID, text) {
+		x = document.getElementById(elementID).type;
+		x == "number" ? document.getElementsByName(elementID)[0].value = text : document.getElementById(elementID).innerHTML = text;
+		
+	}
+	
+	//This is to read the player object.
+	function gamePlayerData(){
+	var properties = Object.keys(player);
+	
+		let text = "";
+		var properties = Object.keys(player);
+		for (let x in properties){
+			text += properties[x] + ": " + player[properties[x]] + "\n";
+		}
+		return text;
+	}
+	
+	//CATALOG
+	
+	
+	//This will return any defined title that I have defines. This returns name only. Refer to the information() function for the description.
+	function gameStatus(specific = "All"){
+	const allStatus = [
+			"Dead",
+			"Hungry",
+			"Drunk",
+			"Sick"
+		];
+		if(specific == "All"){
+			return allStatus;
+		}else{
+			return allStatus.includes(specific);
+		}
+	//If the specific if a string I would like it to search allStatus for the name and the return if it is true.
+	}
+	
+	function gameItems(selection, property){
+		var tempObject = {
+		exists : true,
+		description : "This is an error message. This Item is not defined properly. Please pass this on to the app devolper.",
+		name : [
+					"Rock",
+					"Gem",
+					"Raw Metal",
+					"Metal",
+					"Sharp Stone"
+				]
+		}
+		switch(selection){
+			case "test":
+				//alert("gameitems testing probe 4");
+				tempObject.name = "testObject success,";
+				break;
+			case "template" || "blank" || 0:
+				tempObject.name = "";
+				tempObject.color = "";
+				tempObject.texture = "";
+				tempObject.commonvalue = 0;//Use a rating of 1 through 100 like percentages.
+				tempObject.profile = [33,33,34];//X, Y, Z. Use a rating of 1 through 100 like percentages.
+				tempObject.weight = 00;//undefined unit of weight mesurement. Use whatever your want. I will use pounds though.
+				tempObject.size = 00;//1 - 100 (%) This should be maxed at around the size of a beachball (carriable). Larger than that and it should be placed in a different class. 20=handfull.
+				tempObject.density = 00;//Math.round((tempObject.weight / tempObject.size)*10). Think radar or ultrasound. 
+				tempObject.inside = 00;//1 - 100 (%) This is a rating of how hard the inside is. Use 0 for empty hollow objects and slightly higher for liquids.
+				tempObject.shell = 00;//1 - 100 (%) This is a rating of how hard the outside is. Use low numbers for fuzz and slime.
+				tempObject.elasticity = 00;//1 - 100 (%) 0 is brittle with no bend. 100 is hot, soft rubber.
+				tempObject.fagrancepotency = 00;//Use a rating of 1 through 100 like percentages for the potency.
+				tempObject.feezepoint = 00;//1 - 100 (%) I still need to define this as the range for things like alcohol to meth.
+				tempObject.meltpoint = 00;//1 - 100 (%) I still need to define this as the range for things like minerals to meth.
+				tempObject.ignition = 00;//1 - 100 (%) Define by rating the ignition probability to keep things simpler
+				tempObject.fuel = 00;//1 - 100 (%) A rating for the point for how long it would take to burn.
+				tempObject.heatretain = 00;//1 - 100 (%) A rating for how long the item retains heat. Think lava rock 90 and water as 5.
+				tempObject.smell = [];//This is an array of one word (short) smell descriptors. Make this up as you see fit. Don't be so serious.
+				tempObject.taste = [];//This is an array of one word (short) taste descriptors. This might need to be classed or refernced somewhere later.
+				tempObject.ingestion = [];//include the player effects that should can be induced here.
+				tempObject.decay = 00;//Define how many time track marks or the time that the item will decay.
+				tempObject.wetness = 00;//1 - 100 (%) Rate the likelyhood of this being discovered holding liquid and it's capacity.
+				tempObject.description = "" +
+				"Description_Here"+
+				""+
+				""+
+				"";
+				break;
+			case "Information" || "info" || "help":
+				tempObject.name = "The name of the object.";
+				tempObject.color = "The color. Duh.";
+				tempObject.texture = "What it would feel like if it was something that you could touch. You cannot touch data yet.";
+				tempObject.commonvalue = "Use a rating of 1 through 100 like percentages.";
+				tempObject.profile = "X, Y, Z. Use a rating of 1 through 100 like percentages.";
+				tempObject.weight = "undefined unit of weight mesurement. Use whatever your want. I will use pounds though.";
+				tempObject.size = "1 - 100 (%) This should be maxed at around the size of a beachball (carriable). Larger than that and it should be placed in a different class. 20=handfull.";
+				tempObject.density = "Math.round((tempObject.weight / tempObject.size)*10). Think radar or ultrasound. ";
+				tempObject.inside = "1 - 100 (%) This is a rating of how hard the inside is. Use 0 for empty hollow objects and slightly higher for liquids.";
+				tempObject.shell = "1 - 100 (%) This is a rating of how hard the outside is. Use low numbers for fuzz and slime.";
+				tempObject.elasticity = "1 - 100 (%) 0 is brittle with no bend. 100 is hot, soft rubber.";
+				tempObject.fagrancepotency = "Use a rating of 1 through 100 like percentages for the potency.";
+				tempObject.feezepoint = "1 - 100 (%) I still need to define this as the range for things like alcohol to meth.";
+				tempObject.meltpoint = "1 - 100 (%) I still need to define this as the range for things like minerals to meth.";
+				tempObject.ignition = "1 - 100 (%) Define by rating the ignition probability to keep things simpler";
+				tempObject.fuel = "1 - 100 (%) A rating for the point for how long it would take to burn.";
+				tempObject.heatretain = "1 - 100 (%) A rating for how long the item retains heat. Think lava rock 90 and water as 5.";
+				tempObject.smell = "This is an array of one word (short) smell descriptors. Make this up as you see fit. Don't be so serious.";
+				tempObject.taste = "This is an array of one word (short) taste descriptors. This might need to be classed or refernced somewhere later.";
+				tempObject.ingestion = "include the player effects that should can be induced here.";
+				tempObject.decay = "Define how many time track marks or the time that the item will decay.";
+				tempObject.wetness = "1 - 100 (%) Rate the likelyhood of this being discovered holding liquid and it's capacity.";
+				tempObject.description = "" +
+				"This is the details that will help the users understand the object."+
+				""+
+				""+
+				"";
+				break;
+			case "Rock":
+				tempObject.name = "Rock";
+				tempObject.color = "Gray";
+				tempObject.texture = "Rough";
+				tempObject.commonvalue = 1;
+				tempObject.profile = [33,33,34];
+				tempObject.weight = 10;
+				tempObject.size = 20;
+				tempObject.density = 66;
+				tempObject.inside = 66;
+				tempObject.shell = 66;
+				tempObject.elasticity = 5;
+				tempObject.fagrancepotency = 5;
+				tempObject.feezepoint = 0;
+				tempObject.meltpoint = 90;
+				tempObject.ignition = 100;
+				tempObject.fuel = 100;
+				tempObject.heatretain = 80;
+				tempObject.smell = ["Dirt"];
+				tempObject.taste = ["Strange","Dirty"];
+				tempObject.ingestion = ["Pain","Vomiting"];
+				tempObject.decay = 0;
+				tempObject.wetness = 5;
+				tempObject.description = ""+
+				"The original item. The first and most easy to find tool. This comes in various colors and sizes and shapes. "  +
+				"Yep, we know it well. It's like, the hard version of dirt. It's mother is Bolder, child is Pebble." +
+				"" +
+				"";
+				break;
+			case "Gem":
+				tempObject.name = "Gem";
+				tempObject.color = "Clear";
+				tempObject.texture = "Angular";
+				tempObject.commonvalue = 40;
+				tempObject.profile = [33,33,34];
+				tempObject.weight = 10;
+				tempObject.size = 20;
+				tempObject.density = 75;
+				tempObject.inside = 75;
+				tempObject.shell = 75;
+				tempObject.elasticity = 0;
+				tempObject.fagrancepotency = 0;
+				tempObject.feezepoint = 0;
+				tempObject.meltpoint = 100;
+				tempObject.ignition = 100;
+				tempObject.fuel = 100;
+				tempObject.heatretain = 80;
+				tempObject.smell = ["None"];
+				tempObject.taste = ["None"];
+				tempObject.ingestion = ["Pain","Vomiting"];
+				tempObject.decay = 0;
+				tempObject.wetness = 0;
+				tempObject.description = ""+
+				"This mineral has great sell value. Usually pulled from the ground. "  +
+				"" +
+				"" +
+				"";
+				break;
+			case "Raw Metal":
+				tempObject.name = "Raw Metal";
+				tempObject.color = "Gray";
+				tempObject.texture = "Rough";
+				tempObject.commonvalue = 15;
+				tempObject.profile = [33,33,34];
+				tempObject.weight = 10;
+				tempObject.size = 20;
+				tempObject.density = 68;
+				tempObject.inside = 70;
+				tempObject.shell = 66;
+				tempObject.elasticity = 5;
+				tempObject.fagrancepotency = 5;
+				tempObject.feezepoint = 0;
+				tempObject.meltpoint = 90;
+				tempObject.ignition = 100;
+				tempObject.fuel = 100;
+				tempObject.heatretain = 80;
+				tempObject.smell = ["Dirt"];
+				tempObject.taste = ["Strange","Dirty"];
+				tempObject.ingestion = ["Pain","Vomiting"];
+				tempObject.decay = 0;
+				tempObject.wetness = 5;
+				tempObject.description = ""+
+				"This has been pulled from the ground in its raw state this does little good. It must be refined to pull the metal from it."  +
+				"" +
+				"" +
+				"";
+				break;
+			case "Metal":
+				tempObject.name = "Metal";
+				tempObject.color = "Gray";
+				tempObject.texture = "Smooth";
+				tempObject.commonvalue = 25;
+				tempObject.profile = [33,33,34];
+				tempObject.weight = 15;
+				tempObject.size = 20;
+				tempObject.density = 70;
+				tempObject.inside = 70;
+				tempObject.shell = 70;
+				tempObject.elasticity = 12;
+				tempObject.fagrancepotency = 5;
+				tempObject.feezepoint = 0;
+				tempObject.meltpoint = 90;
+				tempObject.ignition = 90;
+				tempObject.fuel = 90;
+				tempObject.heatretain = 80;
+				tempObject.smell = ["Metalic"];
+				tempObject.taste = ["Metalic"];
+				tempObject.ingestion = ["Pain","Vomiting"];//Iron poisoning... don't eat it.
+				tempObject.decay = 0;
+				tempObject.wetness = 0;
+				tempObject.description = ""+
+				"Great material for building things. Can be made into ingots for better value and transport."  +
+				"" +
+				"" +
+				"";
+				break;
+			case "Sharp Stone":
+				tempObject.name ="Sharp Stone";
+				tempObject.color = "Black";
+				tempObject.texture = "Angular";
+				tempObject.commonvalue = 15;
+				tempObject.profile = [50,30,20];
+				tempObject.weight = 15;
+				tempObject.size = 20;
+				tempObject.density = 40;
+				tempObject.inside = 40;
+				tempObject.shell = 40;
+				tempObject.elasticity = 0;
+				tempObject.fagrancepotency = 0;
+				tempObject.feezepoint = 0;
+				tempObject.meltpoint = 80;
+				tempObject.ignition = 85;
+				tempObject.fuel = 80;
+				tempObject.heatretain = 100;
+				tempObject.smell = ["None"];
+				tempObject.taste = ["None"];
+				tempObject.ingestion = ["Pain","Internal Bleading","Vomiting"];
+				tempObject.decay = 0;
+				tempObject.wetness = 0;
+				tempObject.description = ""+
+				"This stone breaks into sharp fragments. It represents obsidian and flint and onyx. Sharp stone will generate sparks."  +
+				"" +
+				"" +
+				"";
+				break;
+			case "Master" || "All" || "Everthing":
+				
+				tempObject.exists = false;
+				tempObject.description = "There is no information for "+selection+" yet. Have the developer fix this for the sake of the Afthairetos!";
+				break;
+			default: 
+				tempObject.exists = false;
+				tempObject.description = "There is no information for "+selection+" yet. Have the developer fix this for the sake of the Afthairetos!";
+		}
+		if(property == undefined){
+			return tempObject.name;
+		}else{
+			return property == "object" ? tempObject : tempObject[property];
+		} 
+	}
+	
+	//This will return any defined title that I have defines. This returns name only. Refer to the information() function for the description.
+	function gameTitles(specific = "All"){
+		var allTitles = [
+			"Brawler",
+			"Swordsman in Training"
+		];
+		if(specific == "All"){
+			return allTitles;
+		}else{
+			return allTitles.includes(specific);
+		}
+	}
+	
+			//The Duke of Afthaíretos
+		//>	Here I would like to place an object to manage the various inputs from the controller. It will be able to aske the user which one from a selection presented whenever the input has multiple uses. It should tell the player what he is lacking if requirements not met.
+		//>  	   /\              /\
+		//>  	_/  \_        _/  \_
+		//>	CONTRUCTION  stevo82930.github.io/index
+		//>  	   /\              /\
+		//>  	_/  \_        _/  \_
+
+	/*
+	case "ctrlsubmit":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					target = "";
+					drawerOpenClose();
+				}else{
+					target = document.getElementById("controllerInput").innerText;
+					document.getElementById("controllerInput").innerText += ", X"
+				}
+				break;
+	*/
+
+
+	//This is for changing things in the game. This should usually refer to GameBox for variable advantages and game points.
+	function impactGame(specific = target){
+		var tempData = "";
+		if(typeof specific != "string") return;
+		if(specific =="controllerInput") specific = document.getElementById("controllerInput").innerText;
+		switch(specific) {
+			case "Enter sequense now":
+				target = "";
+				drawerOpenClose();
+				break;
+			case "up, up, down, down, left, right, left, right, A":
+				sr.x;
+				drawerOpenClose();
+				break;
+			case "checkBlood":
+				sr.x;
+				break;
+			default:
+		}
+		
+	}
+
+	//This will return the information for the user to read from anywhere.
+	function information(selection){
+		var extra = "Empty";
+		switch(selection) {
+		//This will list Various uncatagorized descriptions.
+			case "Dead":
+				return "The player has died! You will have to wait to be reclaimed by your legend.";
+				break;
+			case "Thing":
+				return "This is a thing. It has various attributes. I don't even know what this thing is.";
+				break;	
+			case "Hopeful":
+				return "You feel hope for what can happen. This will protect you from the first \"Mind\" or \"Curse\" damage inflicted on you";
+				break;		
+			case "Swordsman in Training":
+				return "You are getting much more adept with your weapon! Watch where you swing that thing.";
+				break;	
+			case "Paste Player":
+				navigator.clipboard.readText().then((clipText) => (extra = clipText));
+				return extra;
+				break;
+			case "Error":
+				return "This is an error message. This Item is not defined properly. Please pass this on to the app devolper.";
+				break;	
+			default://If you are missing an entry.
+				if(gameItems(selection,"exists")){return gameItems(selection,"description");
+				}else{
+					return "There is no information for "+selection+" yet. Have the developer fix this for the sake of the Afthairetos!";
+				}
+		}
+	
+	}	
+		//The Duke of Afthaíretos
+		//>	Here I want to make a json upload and a download. These will be accessed from the player menu
+		//>  	   /\             /\
+		//>  	_/  \_        _/  \_
+		//>	CONTRUCTION
+		//>  	   /\             /\
+		//>  	_/  \_        _/  \_
+//uploade the player after placing a form type=file with the ID of id=playerupload.
+	function playerUpload(){
+		var x = document.getElementById("playerupload");//add a fom uploader button on a canvas
+		var txt = "";
+		if ('files' in x) {
+			if (x.files.length == 0) {
+				txt = "Select one or more files.";
+			} else {
+				for (var i = 0; i < x.files.length; i++) {
+					txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+					var file = x.files[i];
+					if ('name' in file) {
+						txt += "name: " + file.name + "<br>";
+					}
+					if ('type' in file) {
+						txt += "type: " + file.type + " <br>";
+						if(file.type == 'application/json'){
+							//I suppose this will not work until I can upload to a server. I still do not know if there is an enviroment that is public that will allow me to save it to. PHP
+						}
+					}
+				}
+			}
+		} 
+		else {
+			if (x.value == "") {
+				txt += "Select one or more files.";
+			} else {
+				txt += "The files property is not supported by your browser!";
+				txt += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+			}
+		}
+		document.getElementById("demo").innerHTML = txt;
+	}
+	
+	function savePlayerToServer(specific = "player"){
+		//This is where we will write/overwrite the player to the server.
+		/*
+		
+		*/
+	}
+	
+	function downloadPlayerFromServer(specific = "player"){
+		//There needs to be a download of a json or a new json written into the browser's default download folder.
+		//Try FileReader.readAsText();
+		/*
+		 document.getElementById('inputfile')
+            .addEventListener('change', function() {
+              
+            var fr=new FileReader();
+            fr.onload=function(){
+                document.getElementById('output')
+                        .textContent=fr.result;
+            }
+              
+            fr.readAsText(this.files[0]);
+        })
+		*/
+	}
+	
+	function downloadPlayerNodeLocalHost(specific = "player"){
+		//This is where we will download to the computer if hosting through 8080 on local network.
+		/*
+		{"name":"Player","race":"Human","bloodWound":0,"crushWound":0,"innerWound":0,"mindWound":0,"curseWound":0,"level":1,"goodRep":10,"badRep":10,"state":["Hungry"],"items":["Sharp Stone","Raw Metal","Rock"],"titles":["Swordsman in Training"],"silver":-268.9358499999999}
+		*/
+	}
+	
+	function downloadPlayerToClipboard(specific = "player"){
+		//This is where we will download the stupidest way. Saving the player to the clipboard and then maunually saving. It sucks, but I am learning as I go.
+		var playerCopy = gamePlayerData();
+		if(specific == "JSON")playerCopy = JSON.stringify(player);
+		navigator.clipboard.writeText(playerCopy);
+		return playerCopy;
+	}
+	
+	function pastePlayerFromClipboardJSON(specific = "JSON"){
+		var playerCopy = '{"name":"Player","race":"Human","bloodWound":0,"crushWound":0,"innerWound":0,"mindWound":0,"curseWound":0,"level":1,"goodRep":10,"badRep":10,"state":["Hungry"],"items":["Sharp Stone","Raw Metal","Rock"],"titles":["Swordsman in Training"],"silver":-268.9358499999999}';
+		//alert(playerCopy);
+		var dumb = "Empty I bet."
+		//var testObject =  JSON.parse(playerCopy);
+		var testObject = JSON.parse(playerCopy);
+		//var testObject = {};
+		//may need to put something here that will verify the content.
+		//Transient user activation is required. The user has to interact with the page or a UI element in order for this feature to work.
+		//This example retrieves the textual contents of the clipboard and inserts the returned text into an element's contents.
+		//Then we have to retieve the data manually to fulfil the promise without error. I guess. F'ing security.
+		//navigator.clipboard.readText().then((clipText) => (document.getElementById("sheetName").innerText = clipText));
+		//document.getElementById("sheetName").innerText = "test";//This worked
+		/*
+		navigator.clipboard.readText().then((clipText) => {
+			alert(clipText);
+			dumb = clipText;
+		});
+		*/
+		
+		showDetailsCanvas();
+		navigator.clipboard.readText().then((clipText) => (document.getElementById("description").innerText = clipText));
+		
+		if(typeof(testObject) === "object"){
+			player = testObject;
+			syncPageToPlayer();
+			alert("The player is loaded but not saved to the browser. Refresh the browser to abort changes or save to browser manually using the option provided here if chages are acceptable." );
+		}else{
+			return 
+		}
+		//add a button for saving to the localStorage
+		return playerCopy;
+	}
+	
+	
+	
+	//This is to save the variables to the localStorage for use next time.
+	function saveToLocalStorage() {
+		localStorage.setItem("player", JSON.stringify(player));
+	}
+	
+	//This is for the actions of controlling the tokens
+	//Page loading changes to the button UI will be in sync player to page function.
+	function actBTNactions(buttonID = target){
+		//Check to see if there is permission to impact player.
+		//break = gavel/explosion,  inner = Pulmonology, Mind = Cognition, 
+		
+		var prefix = "";
+		var suffix = "";
+		var marker = "";
+		var iterations = 0;
+		var imagesGo = false; //Check to see if button has icon images. Otherwise we can default to words and icons.
+		if(typeof buttonID != "string") return;
+		var updatedText = "";
+		switch(buttonID) {
+			case "upBlood":
+				marker =  "<span class='material-symbols-outlined'>healing</span>";
+				player.bloodWound++;
+				iterations = player.bloodWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Blood ";
+				target = "checkBlood";
+				break;
+			case "downBlood":
+				buttonID = "upBlood"
+				marker =  "<span class='material-symbols-outlined'>healing</span>";
+				if(player.bloodWound>0)player.bloodWound--;
+				iterations = player.bloodWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Blood ";
+				target = "checkBlood";
+				break;
+			case "updateBlood":
+				buttonID = "upBlood"
+				marker =  "<span class='material-symbols-outlined'>healing</span>";
+				iterations = player.bloodWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Blood ";
+				target = "checkBlood";
+				break;
+			case "upCrush":
+				marker =  "<span class='material-symbols-outlined'>explosion</span>";
+				player.crushWound++;
+				iterations = player.crushWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Crush ";
+				target = "checkCrush";
+				break;
+			case "downCrush":
+				buttonID = "upCrush"
+				marker =  "<span class='material-symbols-outlined'>explosion</span>";
+				if(player.crushWound>0)player.crushWound--;
+				iterations = player.crushWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Crush ";
+				target = "checkCrush";
+				break;
+			case "updateCrush":
+				buttonID = "upCrush"
+				marker =  "<span class='material-symbols-outlined'>explosion</span>";
+				iterations = player.crushWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Crush ";
+				target = "checkCrush";
+				break;
+			case "upInner":
+				marker =  "<span class='material-symbols-outlined'>pulmonology</span>";
+				player.innerWound++;
+				iterations = player.innerWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Inner ";
+				target = "checkInner";
+				break;
+			case "downInner":
+				buttonID = "upInner"
+				marker =  "<span class='material-symbols-outlined'>pulmonology</span>";
+				if(player.innerWound>0)player.innerWound--;
+				iterations = player.innerWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Inner ";
+				target = "checkInner";
+				break;
+			case "updateInner":
+				buttonID = "upInner"
+				marker =  "<span class='material-symbols-outlined'>pulmonology</span>";
+				iterations = player.innerWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Inner ";
+				target = "checkInner";
+				break;
+			case "upMind":
+				marker =  "<span class='material-symbols-outlined'>Cognition</span>";
+				player.mindWound++;
+				iterations = player.mindWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Mind ";
+				target = "checkMind";
+				break;
+			case "downMind":
+				buttonID = "upMind"
+				marker =  "<span class='material-symbols-outlined'>Cognition</span>";
+				if(player.mindWound>0)player.mindWound--;
+				iterations = player.mindWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Mind ";
+				target = "checkMind";
+				break;
+			case "updateMind":
+				buttonID = "upMind"
+				marker =  "<span class='material-symbols-outlined'>Cognition</span>";
+				iterations = player.mindWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Mind ";
+				target = "checkMind";
+				break;
+			case "upCurse":
+				marker =  "<span class='material-symbols-outlined'>flare</span>";
+				player.curseWound++;
+				iterations = player.curseWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Curse ";
+				target = "checkCurse";
+				break;
+			case "downCurse":
+				buttonID = "upCurse"
+				marker =  "<span class='material-symbols-outlined'>flare</span>";
+				if(player.curseWound>0)player.curseWound--;
+				iterations = player.curseWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Curse ";
+				target = "checkCurse";
+				break;
+			case "updateCurse":
+				buttonID = "upCurse"
+				marker =  "<span class='material-symbols-outlined'>flare</span>";
+				iterations = player.curseWound;//This will be how many images there are if the imagesGo is true. Else the wound count instead.
+				if(iterations<5)prefix = "Curse ";
+				target = "checkCurse";
+				break;
+		}
+			
+		
+		if(imagesGo){
+			//I do not know if this will be needed or if I will just keep the icons.
+		}else{
+			for(let i = 0; i < iterations; i++){
+				if(i == 5 || i == 10 || i == 15) updatedText += " ";
+				updatedText += marker;
+				if(i >= 20)updatedText = marker + "(" + iterations + ")";
+			}
+			if(iterations <= 0)prefix = "No "+prefix;
+			updateText(buttonID,prefix +updatedText+suffix);
+		}
+		saveToLocalStorage();
+		impactGame();
+	}
+
+	//This is for the actions of controlling the tokens. This should lock if not allowed to change tokens.
+	//I do not know if this going to be used or not.
+	function tokenBTNhandler(buttonID = target){
+		if(typeof buttonID != "string") return;
+		switch(buttonID) {
+			case "upBlood":
+				//bloodToken++;//This will be a vraiable
+				//updateText("boxes", boxes);//updateText("boxes", boxes); update the blood damage token here.
+				break;
+			case "downBlood":
+				//bloodToken--;//This will be a vraiable
+				//updateText("boxes", boxes); update the blood damage token here.
+				break;
+		}
+		saveToLocalStorage();
+	}
+	
+	
+	function buttonHandler(buttonID = target){
+		var tempData = "";
+		if(typeof buttonID != "string") return;
+		switch(buttonID) {
+			case "upBlood":
+				//bloodToken++;//This will be a vraiable
+				//updateText("boxes", boxes);//updateText("boxes", boxes); update the blood damage token here.
+				break;
+			case "downBlood":
+				//bloodToken--;//This will be a vraiable
+				//updateText("boxes", boxes); update the blood damage token here.
+				break;
+			case "up":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "up";
+				}else{
+					document.getElementById("controllerInput").innerText += ", up"
+				}
+				break;
+			case "right":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "right";
+				}else{
+					document.getElementById("controllerInput").innerText += ", right"
+				}
+				break;
+			case "down":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "down";
+				}else{
+					document.getElementById("controllerInput").innerText += ", down"
+				}
+				break;
+			case "left":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "left";
+				}else{
+					document.getElementById("controllerInput").innerText += ", left"
+				}
+				break;
+			case "Y":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "Y";
+				}else{
+					document.getElementById("controllerInput").innerText += ", Y"
+				}
+				break;
+			case "B":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "B";
+				}else{
+					document.getElementById("controllerInput").innerText += ", B"
+				}
+				break;
+			case "A":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "A";
+				}else{
+					document.getElementById("controllerInput").innerText += ", A"
+				}
+				break;
+			case "X":
+				if(document.getElementById("controllerInput").innerText == "Enter sequense now"){
+					document.getElementById("controllerInput").innerText = "X";
+				}else{
+					document.getElementById("controllerInput").innerText += ", X"
+				}
+				break;
+			case "ctrlundo":
+				if(document.getElementById("controllerInput").innerText != "Enter sequense now"){
+					tempData = document.getElementById("controllerInput").innerText.split(",");
+					if(tempData.length > 1){
+						tempData.pop();
+					}else{
+						tempData = "Enter sequense now";
+					}
+					document.getElementById("controllerInput").innerText = tempData;
+				}
+				break;
+			default:
+		}
+		
+	}
+	
+	
+	//This will now be to process user input.This should be different from the other button inputs.
+	function submitInputProxy() {
+	alert("submit was success Probe 81");
+		var newInput = Number(document.getElementById("inputProxy").value);
+		switch(target) {
+			case "boxes":
+				//boxes = newInput;
+				//updateText("boxes", boxes);
+				break;
+			default:
+				alert(newInput);
+		}
+		//saveToLocalStorage();
+	}
+	
+</script>
+
+
+
+</html>
+
