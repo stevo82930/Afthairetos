@@ -1843,7 +1843,12 @@ var session = {
 	start: function(){
 		//https://piehost.com/websocket/how-to-build-websocket-server-and-client-in-nodejs
 		
+		/*
+		When testing we are only using the local host.
 		ws = new WebSocket("ws://localhost:8080");
+		*/
+		//This is my IP for my PC. We can add a IP input option later.
+		ws = new WebSocket("ws://192.168.88.253:8080");
 		ws.addEventListener("open", () =>{
 			console.log("We are connected");
 			gameConnected = true;
